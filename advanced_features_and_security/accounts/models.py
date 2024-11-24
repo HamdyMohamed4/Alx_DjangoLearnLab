@@ -40,3 +40,36 @@ class CustomUser(AbstractUser):
 
 class SomeModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = [
+            ('can_view', 'Can view article'),
+            ('can_create', 'Can create article'),
+            ('can_edit', 'Can edit article'),
+            ('can_delete', 'Can delete article'),
+        ]
+
+    def __str__(self):
+        return self.title
+
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+
+    class Meta:
+        permissions = [
+            ("can_create", "Can create articles"),
+            ("can_edit", "Can edit articles"),
+            ("can_delete", "Can delete articles"),
+            ("can_view", "Can view articles"),
+        ]
