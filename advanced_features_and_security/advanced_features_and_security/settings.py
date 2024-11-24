@@ -113,6 +113,31 @@ USE_I18N = True
 
 USE_TZ = True
 
+DEBUG = False
+
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+
+
+SECURE_BROWSER_XSS_FILTER = True  # Enable the browser's XSS filter
+X_FRAME_OPTIONS = 'DENY'  # Prevent the app from being embedded in an iframe (clickjacking protection)
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent browsers from trying to sniff the content type
+CSRF_COOKIE_SECURE = True  # CSRF cookie only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Session cookie only sent over HTTPS
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+SECURE_HSTS_SECONDS = 31536000  # HTTP Strict Transport Security
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Preload the HSTS setting for browsers
+SECURE_HSTS_SECONDS = 31536000  # One year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Include subdomains in HSTS policy
+SECURE_HSTS_PRELOAD = True  # Allow your site to be preloaded in browsers' HSTS list
+SESSION_COOKIE_SECURE = True  # Ensure session cookies are transmitted only over HTTPS
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookies are transmitted only over HTTPS
+X_FRAME_OPTIONS = 'DENY'  # Prevent the site from being framed
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent browsers from MIME sniffing a response
+SECURE_BROWSER_XSS_FILTER = True  # Enable browser's XSS filtering
+
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
