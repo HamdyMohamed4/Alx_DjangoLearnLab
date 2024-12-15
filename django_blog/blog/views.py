@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post,Comment
 from .forms import CommentForm
-
+from django.db.models import Q
 
 
 
@@ -26,21 +26,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-@login_required
-def profile(request):
-    return render(request, 'registration/profile.html')
 
-
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        form = UserChangeForm(instance=request.user)
-    return render(request, 'registration/edit_profile.html', {'form': form})
 
 
 
@@ -155,3 +141,21 @@ class CommentDeleteView(DeleteView):
         if request.user != comment.author:
             return redirect('post_detail', pk=comment.post.pk)
         return super().delete(request, *args, **kwargs)
+
+
+
+
+def search_posts(request):
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
+
+
+def tagged_posts(request, tag_name):
+    tag = get_object_or_404(Tag, name=tag_name)
+    posts = tag.posts.all()
+    return render(request, 'blog/tagged_posts.html', {'tag': tag, 'posts': posts})
