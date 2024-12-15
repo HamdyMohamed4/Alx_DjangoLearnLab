@@ -3,3 +3,29 @@
 <p>By {{ post.author.username }} on {{ post.published_date }}</p>
 <a href="{% url 'post_update' post.pk %}">Edit</a>
 <a href="{% url 'post_delete' post.pk %}">Delete</a>
+
+
+
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <p>{{ comment.author.username }}: {{ comment.content }}</p>
+            <p><a href="{% url 'edit_comment' comment.pk %}">Edit</a> | <a href="{% url 'delete_comment' comment.pk %}">Delete</a></p>
+        </li>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+    <h3>Post a comment</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endif %}
